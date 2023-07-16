@@ -51,15 +51,15 @@ Create an account for a client.
 - **Method:** `POST`
 - **Access:** `Public`
 
-```plaintext
+
 // Request Body
 {
   "name": "John Doe",
   "password": "password123",
   "email": "john@example.com"
-}```
+}
 
-```plaintext
+
 // Response
 {
   "message": "Account created successfully",
@@ -68,7 +68,7 @@ Create an account for a client.
     "name": "John Doe",
     "email": "john@example.com"
   }
-}```
+}
 
 
 
