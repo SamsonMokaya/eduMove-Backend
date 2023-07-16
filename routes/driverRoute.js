@@ -10,7 +10,7 @@ const {
 } = require("../controllers/driverController");
 const validateToken = require("../middleware/validateTokenHandler");
 
-router.post("/register", registerDriver).post('/login', loginDriver).get("/current", validateToken, currentDriver);
-router.route("/:id").put(approveOrRejectRide);
-router.get("/myrides" ,getRidesForDriver)
+router.post("/register", registerDriver).post('/login', loginDriver).get("/current", validateToken, currentDriver).get("/myrides", validateToken ,getRidesForDriver);
+router.route("/:id").put(validateToken, approveOrRejectRide);
+
 module.exports = router;
