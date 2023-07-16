@@ -15,3 +15,6 @@
    git clone https://github.com/SamsonMokaya/eduMove-Backend.git
     ```
 
+  ```bash
+   git clone https://github.com/SamsonMokaya/eduMove-Backend.git
+    ```
