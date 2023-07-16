@@ -27,3 +27,17 @@
    ```bash
    npm install bcrypt pg dotenv express express-async-handler jsonwebtoken
 
+
+4. Set up a PostgreSQL database and configure the connection details in the .env file.
+
+
+5. Import the SQL schema provided into your PostgreSQL database. You can use tools like pgAdmin or the psql command-line tool to import the schema.
+
+
+6. Run the application:
+
+   ```bash
+   npm start
+
+
+
