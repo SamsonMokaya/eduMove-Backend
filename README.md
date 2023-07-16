@@ -72,5 +72,12 @@ Create an account for a client.
 }
 
 
+#### Register a client
+Log in to an existing client account.
+
+URL: /api/clients/login
+Method: POST
+Access: Public
+
 
 
