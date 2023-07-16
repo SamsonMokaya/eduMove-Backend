@@ -101,9 +101,11 @@ Get details of the currently logged-in client.
     ```bash
     // Response
     {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com"
+        "id": 11,
+        "name": "John Doe",
+        "email": "johndoe@gmail.com",
+        "iat": 1689525624,
+        "exp": 1689526524
     }
 
 
@@ -126,24 +128,48 @@ No additional parameters are required for this request.
 
     ```bash
     {
-    "data": [
-        {
-        "id": 1,
-        "client_id": 1,
-        "driver_id": 1,
-        "status": "requested",
-        "created_at": "2023-07-16T12:00:00Z",
-        "updated_at": "2023-07-16T12:30:00Z"
-        },
-        {
-        "id": 2,
-        "client_id": 1,
-        "driver_id": 2,
-        "status": "accepted",
-        "created_at": "2023-07-16T13:00:00Z",
-        "updated_at": "2023-07-16T13:15:00Z"
-        }
-    ]
+        "data": [
+            {
+            "id": 19,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            },
+            {
+            "id": 20,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            },
+            {
+            "id": 21,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            },
+            {
+            "id": 17,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "approved",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            }
+        ]
     }
 
 
