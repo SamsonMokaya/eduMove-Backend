@@ -14,3 +14,8 @@
    ```bash
    git clone https://github.com/SamsonMokaya/eduMove-Backend.git
 
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/SamsonMokaya/eduMove-Backend.git
