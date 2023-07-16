@@ -49,7 +49,7 @@ Create an account for a client.
 
 - **URL:** `/api/clients/register`
 - **Method:** `POST`
-- **Access:** Public
+- **Access:** `Public`
 
 ```plaintext
 // Request Body
@@ -57,7 +57,7 @@ Create an account for a client.
   "name": "John Doe",
   "password": "password123",
   "email": "john@example.com"
-}
+}```
 
 ```plaintext
 // Response
@@ -68,7 +68,7 @@ Create an account for a client.
     "name": "John Doe",
     "email": "john@example.com"
   }
-}
+}```
 
 
 
