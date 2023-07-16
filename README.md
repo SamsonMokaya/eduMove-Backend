@@ -52,6 +52,7 @@ Create an account for a client.
 - **Access:** `Public`
 
 
+```bash
 // Request Body
 {
   "name": "John Doe",
