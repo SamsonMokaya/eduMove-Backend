@@ -43,5 +43,33 @@
 
 ### Client
 
+#### Register a client
+
+Create an account for a client.
+
+- **URL:** `/api/clients/register`
+- **Method:** `POST`
+- **Access:** Public
+
+```plaintext
+// Request Body
+{
+  "name": "John Doe",
+  "password": "password123",
+  "email": "john@example.com"
+}
+
+```plaintext
+// Response
+{
+  "message": "Account created successfully",
+  "data": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@example.com"
+  }
+}
+
+
 
 
