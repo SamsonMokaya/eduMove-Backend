@@ -1,8 +1,10 @@
 const { Pool } = require('pg');
+const dotenv  = require("dotenv").config();
 
+const dbPassword = process.env.dbPassword
 const pool = new Pool({
   user: 'postgres',
-  password: 'Fresh@123',
+  password: dbPassword,
   host: 'localhost',
   port: 5432,
   database: 'edumove',

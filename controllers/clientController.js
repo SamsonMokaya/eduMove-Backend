@@ -1,5 +1,6 @@
 const pool = require('../db');
 const bcrypt = require('bcrypt');
+const jwt = ("jsonwebtoken")
 
 // Create an account
 // @route POST /api/account
@@ -44,8 +45,45 @@ const registerClient = (req, res) => {
 // @route POST /api/account
 // @access public
 const loginClient = (req, res) => {
-  res.json({ message: 'Logged in successfully' });
+  const { email, password } = req.body;
+
+  if (!password || !email) {
+    res.status(400).json({ error: 'All fields are mandatory' });
+    return;
+  }
+
+  pool.query('SELECT password FROM clients WHERE email = $1', [email])
+    .then(result => {
+      if (result.rows.length === 0) {
+        res.status(404).json({ error: 'Email not found' });
+      } else {
+        const hashedPassword = result.rows[0].password;
+        // Compare the provided password with the hashed password
+        bcrypt.compare(password, hashedPassword)
+          .then(match => {
+            if (match) {
+              const accessToken = jwt.substring({
+                result: {
+                  name: result.name,
+                  email: result.email,
+                  id: result.id
+                }
+              }, )
+              res.status(200).json({ accessToken });
+            } else {
+              res.status(401).json({ error: 'Invalid password' });
+            }
+          })
+          .catch(error => {
+            res.status(500).json({ error: 'An error occurred while comparing passwords' });
+          });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'An error occurred while retrieving the password' });
+    });
 };
+
 
 // Show current client
 // @route POST /api/account

@@ -54,13 +54,21 @@ const bookRide = (req, res) => {
       if (clientResult.rows.length === 0) {
         res.status(404).json({ error: 'Client not found' });
       } else {
+        const client = clientResult.rows[0];
+        const clientName = client.name;
+        const clientEmail = client.email;
+
         // Check if driver_id exists in drivers table
         pool.query('SELECT * FROM drivers WHERE id = $1', [driver_id])
           .then(driverResult => {
             if (driverResult.rows.length === 0) {
               res.status(404).json({ error: 'Driver not found' });
             } else {
-              pool.query('INSERT INTO rides (client_id, driver_id) VALUES ($1, $2) RETURNING *', [client_id, driver_id])
+              const driver = driverResult.rows[0];
+              const driverName = driver.name;
+              const driverEmail = driver.email;
+
+              pool.query('INSERT INTO rides (client_id, client_name, client_email, driver_id, driver_name, driver_email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [client_id, clientName, clientEmail, driver_id, driverName, driverEmail])
                 .then(result => {
                   res.status(201).json({ message: 'Ride booked successfully', data: result.rows[0] });
                 })
@@ -92,13 +100,21 @@ const updateRide = (req, res) => {
       if (clientResult.rows.length === 0) {
         res.status(404).json({ error: 'Client not found' });
       } else {
+        const client = clientResult.rows[0];
+        const clientName = client.name;
+        const clientEmail = client.email;
+
         // Check if driver_id exists in drivers table
         pool.query('SELECT * FROM drivers WHERE id = $1', [driver_id])
           .then(driverResult => {
             if (driverResult.rows.length === 0) {
               res.status(404).json({ error: 'Driver not found' });
             } else {
-              pool.query('UPDATE rides SET client_id = $1, driver_id = $2 WHERE id = $3 RETURNING *', [client_id, driver_id, id])
+              const driver = driverResult.rows[0];
+              const driverName = driver.name;
+              const driverEmail = driver.email;
+
+              pool.query('UPDATE rides SET client_id = $1, client_name = $2, client_email = $3, driver_id = $4, driver_name = $5, driver_email = $6 WHERE id = $7 RETURNING *', [client_id, clientName, clientEmail, driver_id, driverName, driverEmail, id])
                 .then(result => {
                   if (result.rows.length === 0) {
                     res.status(404).json({ error: 'Ride not found' });
