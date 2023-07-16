@@ -15,7 +15,15 @@
    git clone https://github.com/SamsonMokaya/eduMove-Backend.git
 
 
-1. Clone the repository:
+2. Create a .env file in the project root directory and provide the following environment variables:
 
    ```bash
-   git clone https://github.com/SamsonMokaya/eduMove-Backend.git
+   PORT=port_server_is_running_on
+   DBPASSWORD=your_database_password
+   ACCESS_TOKEN_SECRET=your_secret_token
+
+
+3. Install dependencies:
+   ```bash
+   npm install bcrypt pg dotenv express express-async-handler jsonwebtoken
+
