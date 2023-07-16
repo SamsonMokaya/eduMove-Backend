@@ -67,7 +67,7 @@ const loginClient = (req, res) => {
               const accessToken = jwt.sign(
                 { id: client.id, name: client.name, email: client.email },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '1m' }
+                { expiresIn: '5m' }
               );
               res.status(200).json({ accessToken });
             } else {
@@ -88,14 +88,29 @@ const loginClient = (req, res) => {
 };
 
 
+// Get rides for the current client
+// @route GET /api/rides/current
+// @access private
+const getCurrentUserRides = (req, res) => {
+  const id = req.client.id; // Retrieve the user ID from req.client
 
+  console.log(id);
+  
+  pool.query('SELECT * FROM rides WHERE client_id = $1', [id])
+    .then(result => {
+      res.status(200).json({ data: result.rows });
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'An error occurred while fetching rides for the current user' });
+    });
+};
 
 
 // Show current client
-// @route POST /api/account
+// @route POST /api/clients/current
 // @access private
 const currentClient = (req, res) => {
-  res.json({ message: 'Current user' });
+  res.json(req.client);
 };
 
-module.exports = { registerClient, loginClient, currentClient };
+module.exports = { registerClient, loginClient, currentClient, getCurrentUserRides };

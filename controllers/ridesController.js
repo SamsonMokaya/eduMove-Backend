@@ -3,7 +3,7 @@ const pool = require("../db")
 
 // get all rides
 // @route GET /api/rides
-// @access public
+// @access private
 const getRides = (req, res) => {
     pool.query('SELECT * FROM rides')
       .then(result => {
@@ -16,7 +16,7 @@ const getRides = (req, res) => {
 
 // Get a rides
 // @route GET /api/rides
-// @access public
+// @access private
 const getRide = (req, res) => {
     const { id } = req.params;
   
@@ -39,7 +39,7 @@ const getRide = (req, res) => {
   
 // Book a ride
 // @route POST /api/rides
-// @access public
+// @access private
 const bookRide = (req, res) => {
   const { client_id, driver_id } = req.body;
 
@@ -89,7 +89,7 @@ const bookRide = (req, res) => {
 
 // Update a ride
 // @route PUT /api/rides/:id
-// @access public
+// @access private
 const updateRide = (req, res) => {
   const { id } = req.params;
   const { client_id, driver_id } = req.body;
@@ -141,7 +141,7 @@ const updateRide = (req, res) => {
 
 // Delete a rides
 // @route DEL /api/rides
-// @access public
+// @access private
 const deleteRide = (req, res) => {
     const { id } = req.params;
   
