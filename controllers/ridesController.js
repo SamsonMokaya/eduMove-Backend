@@ -4,20 +4,34 @@ const pool = require("../db")
 // get all rides
 // @route GET /api/rides
 // @access public
-const getRides = (req,  res) => {
-    res.status(200).json({
-        message: "Get all rides"
-    })
-}
+const getRides = (req, res) => {
+    pool.query('SELECT * FROM rides')
+      .then(result => {
+        res.status(200).json({ data: result.rows });
+      })
+      .catch(error => {
+        res.status(500).json({ error: 'An error occurred while fetching rides' });
+      });
+  };
 
 // Get a rides
 // @route GET /api/rides
 // @access public
-const getRide = (req, res)=>{
-    res.status(200).json({
-        message: `Get ride for ${req.params.id}`
-    })
-}
+const getRide = (req, res) => {
+    const { id } = req.params;
+  
+    pool.query('SELECT * FROM rides WHERE id = $1', [id])
+      .then(result => {
+        if (result.rows.length > 0) {
+          res.status(200).json({ data: result.rows[0] });
+        } else {
+          res.status(404).json({ error: 'Ride not found' });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ error: 'An error occurred while fetching the ride' });
+      });
+  };
 
 // Book a rides
 // @route POST /api/rides
@@ -56,20 +70,44 @@ const bookRide = (req, res) => {
 // Update a rides
 // @route PUT /api/rides
 // @access public
-const updateRide = (req, res)=>{
-    res.status(200).json({
-        message: `Update ride for ${req.params.id}`
-    })
-}
+// Update a ride
+// @route PUT /api/rides/:id
+// @access public
+const updateRide = (req, res) => {
+    const { id } = req.params;
+    const { client_id, driver_id } = req.body;
+  
+    pool.query('UPDATE rides SET client_id = $1, driver_id = $2 WHERE id = $3 RETURNING *', [client_id, driver_id, id])
+      .then(result => {
+        if (result.rows.length > 0) {
+          res.status(200).json({ message: 'Ride updated successfully', data: result.rows[0] });
+        } else {
+          res.status(404).json({ error: 'Ride not found' });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ error: 'An error occurred while updating the ride' });
+      });
+  };
 
 // Delete a rides
 // @route DEL /api/rides
 // @access public
-const deleteRide = (req, res)=>{
-    res.status(200).json({
-        message: `Delete a ride for ${req.params.id}`
-    })
-}
+const deleteRide = (req, res) => {
+    const { id } = req.params;
+  
+    pool.query('DELETE FROM rides WHERE id = $1 RETURNING *', [id])
+      .then(result => {
+        if (result.rows.length > 0) {
+          res.status(200).json({ message: 'Ride deleted successfully', data: result.rows[0] });
+        } else {
+          res.status(404).json({ error: 'Ride not found' });
+        }
+      })
+      .catch(error => {
+        res.status(500).json({ error: 'An error occurred while deleting the ride' });
+      });
+  };
 
 
 module.exports = {getRides, getRide, bookRide, updateRide, deleteRide}
