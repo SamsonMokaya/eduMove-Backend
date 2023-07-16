@@ -67,7 +67,7 @@ const loginClient = (req, res) => {
               const accessToken = jwt.sign(
                 { id: client.id, name: client.name, email: client.email },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '5m' }
+                { expiresIn: '15m' }
               );
               res.status(200).json({ accessToken });
             } else {
@@ -92,10 +92,8 @@ const loginClient = (req, res) => {
 // @route GET /api/rides/current
 // @access private
 const getCurrentUserRides = (req, res) => {
-  const id = req.client.id; // Retrieve the user ID from req.client
+  const id = req.user.id; // Retrieve the user ID from req.client
 
-  console.log(id);
-  
   pool.query('SELECT * FROM rides WHERE client_id = $1', [id])
     .then(result => {
       res.status(200).json({ data: result.rows });
@@ -110,7 +108,7 @@ const getCurrentUserRides = (req, res) => {
 // @route POST /api/clients/current
 // @access private
 const currentClient = (req, res) => {
-  res.json(req.client);
+  res.json(req.user);
 };
 
 module.exports = { registerClient, loginClient, currentClient, getCurrentUserRides };

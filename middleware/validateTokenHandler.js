@@ -10,7 +10,7 @@ const validateToken = asyncHandler(async (req, res, next) => {
       if (err) {
         next(err); // Pass the error to the error handling middleware
       } else {
-        req.client = decoded;
+        req.user = decoded;
         next(); // Call next to pass control to the next route handler
       }
     });

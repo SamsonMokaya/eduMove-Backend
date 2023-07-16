@@ -1,5 +1,95 @@
 const pool = require("../db");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
+
+// Register admin
+// @route POST /api/admin/
+// @access public
+const adminRegister = (req, res) => {
+  const { name, password } = req.body;
+
+  // Check if the name and password are provided
+  if (!name || !password) {
+    return res.status(400).json({ error: 'Name and password are required.' });
+  }
+
+  // Check if the name already exists in the database
+  pool.query('SELECT * FROM admin WHERE name = $1', [name])
+    .then(result => {
+      if (result.rows.length > 0) {
+        return res.status(409).json({ error: 'Name already exists.' });
+      }
+
+      // Hash the password
+      bcrypt.hash(password, 10)
+        .then(hashedPassword => {
+          // Store the admin details in the database
+          pool.query('INSERT INTO admin (name, password) VALUES ($1, $2)', [name, hashedPassword])
+            .then(() => {
+              res.status(201).json({ message: 'Admin registered successfully.' });
+            })
+            .catch(error => {
+              console.log('Error storing admin details:', error);
+              res.status(500).json({ error: 'An error occurred while storing admin details.' });
+            });
+        })
+        .catch(error => {
+          console.log('Error hashing password:', error);
+          res.status(500).json({ error: 'An error occurred while hashing the password.' });
+        });
+    })
+    .catch(error => {
+      console.log('Error checking if name exists:', error);
+      res.status(500).json({ error: 'An error occurred while checking if name exists.' });
+    });
+};
+
+// Admin login
+// @route POST /api/admin/login
+// @access public 
+const adminLogin = (req, res) => {
+  const { name, password } = req.body;
+
+  if (!name || !password) {
+    res.status(400).json({ error: 'All fields are mandatory' });
+    return;
+  }
+
+  pool.query('SELECT * FROM admin WHERE name = $1', [name])
+    .then(result => {
+      if (result.rows.length === 0) {
+        res.status(404).json({ error: 'Name not found' });
+      } else {
+        const admin = result.rows[0];
+        const hashedPassword = admin.password;
+        // Compare the provided password with the hashed password
+        bcrypt.compare(password, hashedPassword)
+          .then(match => {
+            if (match) {
+              console.log('Password match');
+              const token = jwt.sign(
+                { name: admin.name },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '15m' }
+              );
+              res.status(200).json({ token });
+            } else {
+              console.log('Password does not match');
+              res.status(401).json({ error: 'Invalid password' });
+            }
+          })
+          .catch(error => {
+            console.log('Error comparing passwords:', error);
+            res.status(500).json({ error: 'An error occurred while comparing passwords' });
+          });
+      }
+    })
+    .catch(error => {
+      console.log('Error retrieving password:', error);
+      res.status(500).json({ error: 'An error occurred while retrieving the password' });
+    });
+};
+
 
 
 // Get all clients
@@ -167,6 +257,8 @@ const deleteBookedRide = (req, res) => {
 };
 
 module.exports = {
+  adminRegister,
+  adminLogin,
   getAllDrivers,
   getAllClients,
   getBookedRides,
