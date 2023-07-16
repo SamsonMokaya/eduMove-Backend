@@ -1,3 +1,6 @@
+const pool = require("../db")
+
+
 // get all rides
 // @route GET /api/rides
 // @access public
@@ -19,17 +22,36 @@ const getRide = (req, res)=>{
 // Book a rides
 // @route POST /api/rides
 // @access public
-const bookRide = (req,  res) => {
-    console.log("The request body is: ", req.body)
-    const {name, route} = req.body
-    if(!name || !route){
-        res.status(400);
-        throw new Error("All fields are mandatory")
+const bookRide = (req, res) => {
+    const { client_id, driver_id } = req.body;
+  
+    if (!client_id || !driver_id) {
+      res.status(400).json({ error: 'All fields are mandatory' });
+      return;
     }
-    res.status(201).json({
-        message: "Book a ride"
-    })
-}
+  
+    pool.connect((err, client, release) => {
+      if (err) {
+        res.status(500).json({ error: 'Failed to connect to the database' });
+        return;
+      }
+  
+      const insertRideQuery = 'INSERT INTO rides (client_id, driver_id) VALUES ($1, $2) RETURNING *';
+      const values = [client_id, driver_id];
+  
+      client.query(insertRideQuery, values)
+        .then(result => {
+          release();
+          res.status(201).json({ message: 'Ride booked successfully', data: result.rows[0] });
+        })
+        .catch(error => {
+          release();
+          res.status(500).json({ error: 'An error occurred while booking the ride' });
+        });
+    });
+  };
+  
+  
 
 // Update a rides
 // @route PUT /api/rides
