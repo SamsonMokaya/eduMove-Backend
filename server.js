@@ -8,6 +8,7 @@ const port = process.env.PORT;
 
 app.use(express.json())
 app.use("/api/rides", require("./routes/ridesRoute"));
+app.use("/api/clients", require("./routes/clientRoute"));
 app.use(errorHandler)
 
 
