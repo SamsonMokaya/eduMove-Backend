@@ -9,7 +9,11 @@
 ### Installation
 
 ```bash
-npm install
+npm install bcrypt
+```
+
+```bash
+npm install pg
 ```
 
 ### Run
