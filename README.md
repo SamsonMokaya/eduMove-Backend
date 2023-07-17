@@ -600,3 +600,59 @@ Create a new client account.
         }
     }
 
+
+### Reschedule a booked ride
+
+Reschedule a booked ride.
+
+- **URL:**: `/api/admin/rides/:id`
+- **Method:** `PUT`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    //Request body
+    {
+        "client_id": 12,
+        "driver_id": 5,
+        "status": "approved"
+    }
+
+    //Response
+    {
+        "message": "Ride updated successfully",
+        "data": {
+            "id": 19,
+            "client_id": 12,
+            "driver_id": 5,
+            "status": "approved",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+        }
+    }
+
+
+### Delete a Booked Ride
+
+Delete a booked ride from the system.
+
+- **URL:**: `/api/admin/rides/:id`
+- **Method:** `DELETE`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    //Response
+    {
+        "message": "Booked ride deleted successfully",
+        "data": {
+            "id": 19,
+            "client_id": 12,
+            "driver_id": 5,
+            "status": "approved",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+        }
+    }
