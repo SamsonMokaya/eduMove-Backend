@@ -41,6 +41,8 @@
 
 ## API Endpoints
 
+### Base url - `http://localhost:{server_port_number}/`
+
 ### Client
 
 #### Register a client
