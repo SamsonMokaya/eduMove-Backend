@@ -25,7 +25,7 @@
 
 3. Install dependencies:
    ```bash
-   npm install bcrypt pg dotenv express express-async-handler jsonwebtoken
+   npm install bcrypt pg dotenv express express-async-handler jsonwebtoken nodemon
 
 
 4. Set up a PostgreSQL database and configure the connection details in the .env file.
