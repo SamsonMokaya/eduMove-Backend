@@ -37,7 +37,7 @@
 6. Run the application:
 
    ```bash
-   npm start
+   npm run dev
 
 ## API Endpoints
 
