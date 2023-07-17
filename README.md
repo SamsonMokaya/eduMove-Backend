@@ -298,3 +298,115 @@ Delete a booked ride.
                 "driver_email": "charlesdarwin@gmail.com"
             }
     }
+
+
+### Drivers
+
+#### Register a driver
+
+Create a new driver account.
+
+- **URL:** `/api/drivers/register`
+- **Method:** `POST`
+- **Access:** Public
+
+
+    ```bash
+    // Request body
+    {
+    "name": "Driver 1" ,
+    "email": "driver1@gmail.com",
+    "password": "driver1"
+    }
+
+    //Response
+    {
+        "message": "Driver account created successfully",
+        "data": {
+            "id": 6,
+            "name": "Driver 1",
+            "email": "driver1@gmail.com",
+            "password": "$2b$10$H7V98adQb1mgNrSTKpBdmOYbmEzjGZjVFmBU2FwdH3LllLgz5Zw6m"
+        }
+    }
+
+
+#### Log in to driver account
+
+Authenticate and obtain an access token for a driver account.
+
+- **URL:** `/api/drivers/login`
+- **Method:** `POST`
+- **Access:** `Public`
+
+    ```bash
+        {
+            "accessToken": "access_token"
+        }
+
+
+### Get rides for current driver
+
+Get a list of rides requested by the current driver.
+
+- **URL:**: /api/drivers/myrides
+- **Method:** `GET`
+- **Access:** `Private(requires authentication token in the request headers)`
+
+    ```bash
+    //Response body
+    {
+        "data": [
+            {
+            "id": 19,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            },
+            {
+            "id": 20,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            },
+        ]
+        ...
+    }
+
+
+### Approve or reject a ride
+
+Update the status of a ride as approved or rejected.
+
+- **URL:**: /api/drivers/:id
+- **Method:** `PUT`
+- **Access:** `Private(requires authentication token in the request headers)`
+
+    ```bash
+    //Request body
+    {
+        "status": "approved"
+    }
+
+    //Response
+    {
+        "message": "Ride status updated successfully",
+        "data": {
+            "id": 21,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "approved",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+        }
+    }

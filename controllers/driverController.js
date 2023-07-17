@@ -67,7 +67,7 @@ const loginDriver = (req, res) => {
               const accessToken = jwt.sign(
                 { id: driver.id, name: driver.name, email: driver.email },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15m' }
+                { expiresIn: '30m' }
               );
               res.status(200).json({ accessToken });
             } else {
@@ -98,8 +98,8 @@ const currentDriver = (req, res) => {
 // @route GET /api/rides/driver/:id
 // @access private
 const getRidesForDriver = (req, res) => {
-  const id = req.client.id; // Retrieve the user ID from req.client
-
+  const id = req.user.id; // Retrieve the user ID from req.client
+  console.log(id)
   pool.query('SELECT * FROM rides WHERE driver_id = $1', [id])
     .then(result => {
       res.status(200).json({ data: result.rows });
