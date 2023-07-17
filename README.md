@@ -410,3 +410,193 @@ Update the status of a ride as approved or rejected.
             "driver_email": "maryleakey@gmail.com"
         }
     }
+
+## Admin
+
+### Register an admin
+
+Register a new admin account.
+
+
+- **URL:**: `/api/admin/register`
+- **Method:** `POST`
+- **Access:** `Public`
+
+    ```bash
+    //Request body
+    {
+        "name": "admin5",
+        "password": "admin5"
+    }
+
+    //Reponse
+    {
+        "message": "Admin registered successfully."
+    }
+
+
+### Admin Login
+
+Authenticate and obtain an access token for an admin account.
+
+- **URL:**: `/api/admin/login`
+- **Method:** `POST`
+- **Access:** `Public`
+
+    ```bash
+    // Request Body
+    {
+        "name": "Admin1",
+        "password": "admin123"
+    }
+
+    // Response
+    {
+        "token": "<access_token>"
+    }
+
+
+### Get All Drivers
+
+Retrieve a list of all drivers.
+
+
+- **URL:**: `/api/admin/drivers`
+- **Method:** `GET`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    {
+        "data": [
+            {
+            "id": 4,
+            "name": "Mary Leakey",
+            "email": "maryleakey@gmail.com",
+            "password": "$2b$10$ZSx1BdpizrvL6wd7mCy2cuQAqc355zL4hSHzf4y7wjvzUkvGOaJmW"
+            },
+            {
+            "id": 5,
+            "name": "Chaarles Darwin",
+            "email": "charlesdarwin@gmail.com",
+            "password": "$2b$10$YikT1fqI0vhkD0dBjq8poeMa.hY5ftcY43du4jzXfpBkHHaCdf9K6"
+            },
+            ...
+        ]
+    }
+
+
+### Get All Clients
+
+Retrieve a list of all clients.
+
+- **URL:**: `/api/admin/clients`
+- **Method:** `GET`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    //Response
+    {
+        "data": [
+            {
+            "id": 11,
+            "name": "John Doe",
+            "password": "$2b$10$.b2U0mS6Sx983RTOmOJsyOYn/z4iPzYjgZ1YYtyXzTGaYTzeu7pdC",
+            "email": "johndoe@gmail.com"
+            },
+            {
+            "id": 12,
+            "name": "Jane Doe",
+            "password": "$2b$10$6q7tY2eAugklGv4TmpkXyer2vbY3Apa64DAGYcEirraJ/GA69kchG",
+            "email": "janedoe@gmail.com"
+            }
+        ]
+    }
+
+
+### Get Booked Rides
+
+Retrieve a list of all booked rides.
+
+- **URL:**: `/api/admin/rides`
+- **Method:** `GET`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    //Response
+    {
+        "data": [
+            {
+            "id": 19,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            },
+            {
+            "id": 20,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+            },
+            ...
+        ]
+    }
+
+
+### Get a single ride
+
+Retrieve a single ride.
+
+- **URL:**: `/api/admin/rides/:id`
+- **Method:** `GET`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    //Response
+    {
+        "data": {
+            "id": 19,
+            "client_id": 11,
+            "driver_id": 4,
+            "status": "waiting for approval",
+            "client_name": "John Doe",
+            "client_email": "johndoe@gmail.com",
+            "driver_name": "Mary Leakey",
+            "driver_email": "maryleakey@gmail.com"
+        }
+    }
+
+### Create a Client
+
+Create a new client account.
+
+- **URL:**: `/api/admin/clients`
+- **Method:** `POST`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    //Request body
+    {
+        "name": "Jane Doe",
+        "email": "janedoe@example.com",
+        "password": "janedoe"
+    }
+
+    //Response
+    {
+        "message": "Client created successfully",
+        "data": {
+            "id": 13,
+            "name": "Jane Doe",
+            "password": "$2b$10$Lqwdzy7VXv1fYck08pQ.MOabbND8T569XTnLTivi5T7rktMEtjbtG",
+            "email": "janedoe@example.com"
+        }
+    }
+

@@ -70,7 +70,7 @@ const adminLogin = (req, res) => {
               const token = jwt.sign(
                 { name: admin.name },
                 process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '15m' }
+                { expiresIn: '30m' }
               );
               res.status(200).json({ token });
             } else {
