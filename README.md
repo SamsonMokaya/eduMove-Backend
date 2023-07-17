@@ -600,6 +600,31 @@ Create a new client account.
         }
     }
 
+### Create a new driver
+
+Create a new driver account.
+
+- **URL:**: `/api/admin/drivers`
+- **Method:** `POST`
+- **Access:** `Private (requires authentication token in the request headers)`
+
+    ```bash
+    //Request body
+    {
+        "name": "driver25",
+        "email": "driver25@gmail.com",
+        "password": "driver25"
+    }
+    //Response
+    {
+        "message": "Driver created successfully",
+        "data": {
+            "id": 7,
+            "name": "driver25",
+            "email": "driver25@gmail.com",
+            "password": "$2b$10$y53y3v6DJTiQqTmXfPk9BeCYO95Q1wEWhaYcWjviDMNObZEbNuChK"
+        }
+    }
 
 ### Reschedule a booked ride
 

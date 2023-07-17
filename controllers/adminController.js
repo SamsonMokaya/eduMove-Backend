@@ -144,6 +144,46 @@ const createClient = (req, res) => {
 };
 
 
+// Create a new driver
+// @route POST /api/admin/drivers
+// @access private (admin only)
+const createDriver = (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    res.status(400).json({ error: 'All fields are mandatory' });
+    return;
+  }
+
+  pool.query('SELECT * FROM drivers WHERE email = $1', [email])
+    .then(result => {
+      if (result.rows.length > 0) {
+        res.status(400).json({ error: 'Email must be unique' });
+      } else {
+        // Hash password
+        bcrypt.hash(password, 10)
+          .then(hashedPassword => {
+            // Insert new driver
+            pool.query('INSERT INTO drivers (name, email, password) VALUES ($1, $2, $3) RETURNING *', [name, email, hashedPassword])
+              .then(result => {
+                res.status(201).json({ message: 'Driver created successfully', data: result.rows[0] });
+              })
+              .catch(error => {
+                res.status(500).json({ error: 'An error occurred while creating the driver' });
+              });
+          })
+          .catch(error => {
+            res.status(500).json({ error: 'An error occurred while hashing the password' });
+          });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({ error: 'An error occurred while checking the email uniqueness' });
+    });
+};
+
+
+
 // Get all drivers
 // @route GET /api/admin/clients
 // @access private (admin only)
@@ -263,6 +303,7 @@ module.exports = {
   getAllClients,
   getBookedRides,
   createClient,
+  createDriver,
   getBookedRide,
   rescheduleRide,
   deleteBookedRide

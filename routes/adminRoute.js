@@ -6,6 +6,7 @@ const {
   getAllClients,
   getBookedRides,
   createClient,
+  createDriver,
   getBookedRide,
   rescheduleRide,
   deleteBookedRide,
@@ -38,6 +39,12 @@ router.get("/clients", validateToken, getAllClients);
 // @route GET /api/admin/drivers
 // @access private (admin only)
 router.get("/drivers", validateToken, getAllDrivers);
+
+// Create a new driver
+// @route POST /api/admin/drivers
+// @access private (admin only)
+router.post("/drivers", validateToken, createDriver);
+
 
 // Get all booked rides
 // @route GET /api/admin/rides
